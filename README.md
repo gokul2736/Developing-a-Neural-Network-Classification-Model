@@ -1,5 +1,9 @@
 # Developing a Neural Network Classification Model
 
+### Name: Markandeyan Goku
+
+### Register Number:212224240086
+
 ## AIM
 To develop a neural network classification model for the given dataset.
 
@@ -43,12 +47,13 @@ Evaluate and Predict:
 
 Evaluate the model on the test dataset, measure its accuracy, and use it to predict the customer segment (A, B, C, or D) for new customers.
 
+
+
+
+
+
+
 ## PROGRAM
-
-### Name:Markandeyan Gokul
-
-### Register Number:212224240086
-
 ```
 import torch
 import torch.nn as nn
@@ -61,34 +66,78 @@ from torch.utils.data import TensorDataset,DataLoader
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+```
+```
 df=pd.read_csv("C:\\Users\\varal\\Downloads\\Deep Learning\\Deep Learning\\customers.csv")
 df
+```
+<img width="1287" height="396" alt="image" src="https://github.com/user-attachments/assets/b0bfe53d-0fe1-4d2a-a2a9-fb1fc38cb706" />
+
+```
 df=df.drop(columns=["ID"])
 df
+```
+
+<img width="1221" height="427" alt="image" src="https://github.com/user-attachments/assets/bbb25a7c-2267-44e6-8bdf-62b7e0c3d220" />
+
+```
 df.columns
+```
+<img width="740" height="165" alt="image" src="https://github.com/user-attachments/assets/4ea3ea89-36fc-47c6-955e-9947399346d5" />
+
+```
+df.columns
+```
+<img width="810" height="130" alt="image" src="https://github.com/user-attachments/assets/a1ab6b8e-b2d6-4823-a288-7e02283b22cf" />
+
+```
 df.fillna({"Work_Experience":0,"Family_Size":df["Family_Size"].median()},inplace=True)
 df
+```
+<img width="1201" height="415" alt="image" src="https://github.com/user-attachments/assets/0dcd5ffa-a6e7-4e89-8238-6d492c58312a" />
+
+```
 cat_columns=['Gender','Ever_Married', 'Graduated', 'Profession',
     'Spending_Score', 'Var_1']
 for col in cat_columns:
     df[col]=LabelEncoder().fit_transform(df[col])
+```
+
+```
 lbe=LabelEncoder()
 df["Segmentation"]=lbe.fit_transform(df["Segmentation"])
 df
+```
+<img width="1242" height="443" alt="image" src="https://github.com/user-attachments/assets/1cf617d4-2342-4215-877e-79c87927127c" />
+
+
+```
 x=df.drop(columns="Segmentation")
 y=df["Segmentation"].values
 xt,xst,yt,yst=train_test_split(x,y,test_size=0.2,random_state=42)
+```
+
+```
 scaler=StandardScaler()
 xt=scaler.fit_transform(xt)
 xst=scaler.transform(xst)
+```
+
+```
 xt=torch.FloatTensor(xt)
 xst=torch.FloatTensor(xst)
 yt=torch.FloatTensor(yt)
 yst=torch.FloatTensor(yst)
+```
+
+```
 tr=TensorDataset(xt,yt)
 tst=TensorDataset(xst,yst)
 trl=DataLoader(tr,batch_size=16,shuffle=True)
 tstl=DataLoader(tst,batch_size=16)
+```
+
+```
 class classifier1(nn.Module):
     def __init__(self,input_size):
         super().__init__()
@@ -102,9 +151,15 @@ class classifier1(nn.Module):
         x=F.relu(self.l3(x))
         x=self.l4(x)
         return x
+```
+
+```
 model=classifier1(input_size=xt.shape[1])
 criterion=nn.CrossEntropyLoss()
 op=optim.Adam(model.parameters(),lr=0.001)
+```
+
+```
 epochs=100
 for i in range(epochs):
     for a,b in trl:
@@ -115,6 +170,10 @@ for i in range(epochs):
         op.step()
     if i%10==0:
         print(f"Loss:{i}/{epochs}",loss.item())
+```
+<img width="422" height="262" alt="image" src="https://github.com/user-attachments/assets/bfb80a69-2594-482d-beac-90b20e94aa3a" />
+
+```
 pre=[]
 act=[]
 with torch.no_grad():
@@ -123,12 +182,22 @@ with torch.no_grad():
     pre.extend(predicted.numpy())
     act.extend(yst.numpy())
     print(act,pre)
+```
+<img width="1747" height="80" alt="image" src="https://github.com/user-attachments/assets/e9bdd7ce-4d17-49ba-8788-b32490a2f015" />
+
+
+```
 accuracy=accuracy_score(act,pre)
 conf_matrix=confusion_matrix(act,pre)
 cl_report=classification_report(act,pre,target_names=['A','B','C','D'])
 print("Accuracy:",accuracy)
 print("confusion_matrix:\n",conf_matrix)
 print("classification_report:\n",cl_report)
+```
+<img width="696" height="440" alt="image" src="https://github.com/user-attachments/assets/f2d226d4-8a4a-4713-ba39-7871ed6433e3" />
+
+
+```
 import seaborn as sns
 import matplotlib.pyplot as plt
 xl=['A','B','C','D']
@@ -139,23 +208,23 @@ plt.title("Confusion Matrix")
 plt.show()
 ```
 
-### Dataset Information
+<img width="672" height="576" alt="image" src="https://github.com/user-attachments/assets/9ae61567-6a8f-4e6c-b079-f2ec0053d224" />
 
-<img width="1063" height="390" alt="image" src="https://github.com/user-attachments/assets/0b6bafcc-a5f6-4d9a-b4eb-6ff9f5dda90f" />
+
+
+### Dataset Information
+<img width="1331" height="432" alt="image" src="https://github.com/user-attachments/assets/5bbb1ad9-c1d8-4eb8-941d-5cda7275bea2" />
+
 
 ### OUTPUT
 
 ## Confusion Matrix
 
-<img width="601" height="502" alt="image" src="https://github.com/user-attachments/assets/aecf0578-0238-4d89-8bea-3d877558dea0" />
+<img width="672" height="576" alt="image" src="https://github.com/user-attachments/assets/9ae61567-6a8f-4e6c-b079-f2ec0053d224" />
 
 ## Classification Report
+<img width="696" height="440" alt="image" src="https://github.com/user-attachments/assets/f2d226d4-8a4a-4713-ba39-7871ed6433e3" />
 
-<img width="640" height="366" alt="image" src="https://github.com/user-attachments/assets/983ce763-d7cb-428b-b5a8-87e7393904d3" />
-
-### New Sample Data Prediction
-
-<img width="325" height="53" alt="690096274-727ce2cb-da91-4b1e-bd9f-c4989a9999c4" src="https://github.com/user-attachments/assets/d130b076-ce8d-46d0-9dc2-fe70e6a0b12e" />
 
 ## RESULT
-Include your result here
+This program has been executed successfully.
